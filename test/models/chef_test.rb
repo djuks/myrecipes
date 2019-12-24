@@ -16,7 +16,7 @@ class ChefTest < ActiveSupport::TestCase
     assert_not @chef.valid?
   end
   test "name should't be less then 3 characters" do
-    @chef.chefname = "a" * 2 
+    @chef.chefname = "a" * 2
     assert_not @chef.valid?
   end
   test "name should't be more then 30 characters" do
@@ -66,4 +66,13 @@ class ChefTest < ActiveSupport::TestCase
     @chef.password = @chef.password_confirmation = "x" * 7
     assert_not @chef.valid?
   end
+
+  test "associated recipes should be destroyed" do
+    @chef.save
+    @chef.recipes.create!(name: "testing delete", description: "testing delete function")
+    assert_difference 'Recipe.count', -1 do
+      @chef.destroy
+    end
+  end
+
 end
