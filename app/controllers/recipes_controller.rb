@@ -6,12 +6,15 @@ class RecipesController < ApplicationController
   def index
     @recipes = Recipe.paginate(page: params[:page], per_page: 5)
   end
+
   def show
 
   end
+
   def new
     @recipe = Recipe.new
   end
+
   def create
     @recipe = Recipe.new(recipe_params)
     @recipe.chef = current_chef
@@ -45,7 +48,7 @@ class RecipesController < ApplicationController
 
   private
   def recipe_params
-    params.require(:recipe).permit(:name, :description)
+    params.require(:recipe).permit(:name, :description, ingredient_ids: [])
   end
 
   def set_recipe
